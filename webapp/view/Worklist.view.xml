@@ -1,0 +1,110 @@
+<mvc:View
+	controllerName="jetCources.MyFirstProject.controller.Worklist"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:semantic="sap.f.semantic">
+
+	<semantic:SemanticPage
+		id="page"
+		headerPinnable="false"
+		toggleHeaderOnTitleClick="false">
+
+		<semantic:titleHeading>
+			<Title text="{i18n>worklistTitle}" />
+		</semantic:titleHeading>
+
+		<semantic:content>
+			<Table
+				id="table"
+				width="auto"
+				items="{
+					path: '/zjblessons_base_Materials',
+					sorter: {
+						path: 'MaterialText',
+						descending: false
+					}
+				}"
+				
+				noDataText="{worklistView>/tableNoDataText}"
+				busyIndicatorDelay="{worklistView>/tableBusyDelay}"
+				growing="true"
+				growingScrollToLoad="true"
+				updateFinished="onUpdateFinished">
+
+				<headerToolbar>
+					<Toolbar>
+						<Title id="tableHeader" text="{worklistView>/worklistTableTitle}"/>
+						<ToolbarSpacer />
+						<SearchField
+							id="searchFieldFirst"
+							tooltip="{i18n>worklistSearchTooltip}"
+							search="onSearchSubGroupText"
+							placeholder="{i18n>SearchForSubGroupText}"
+							width="auto">
+						</SearchField>
+							<SearchField
+							id="searchFieldSecond"
+							tooltip="{i18n>worklistSearchTooltip}"
+							search="onSearchMaterialText"
+							placeholder="{i18n>SearchForMaterialText}"
+							width="auto">
+						</SearchField>
+					</Toolbar>
+				</headerToolbar>
+
+				<columns>
+					<Column>
+						<Text text="{i18n>CreatedBy}" />
+					</Column>
+					<Column>
+						<Text text="{i18n>ModifiedBy}" />
+					</Column>
+					<Column>
+						<Text text="{i18n>GroupText}" />
+					</Column>
+					<Column>
+						<Text text="{i18n>SubGroupText}" />
+					</Column>
+					<Column>
+						<Text text="{i18n>MaterialText}" />
+					</Column>
+					<Column>
+						<Text text="{i18n>Modified}" />
+					</Column>
+					
+				</columns>
+
+				<items>
+					<ColumnListItem
+						type="Navigation"
+						press="onPress"
+						highlight="{= ${CreatedBy} === 'SYSTEM' ? 'Success' : undefined}">
+						<cells>
+							<ObjectIdentifier title="{CreatedBy}"/>
+							<ObjectIdentifier title="{ModifiedBy}"/>
+							<ObjectIdentifier title="{GroupText}"/>
+							<ObjectIdentifier title="{SubGroupText}"/>
+							<ObjectIdentifier title="{MaterialText}"/>
+							<ObjectIdentifier 
+									title="{path: 'Modified' , 
+											type: 'sap.ui.model.type.DateTime', 
+											formatOptions: {
+												pattern: 'HH:mm dd/MM/yyyy'
+											}
+										}"	/>
+						</cells>
+						
+					</ColumnListItem>
+					
+				</items>
+			</Table>
+		</semantic:content>
+
+		<semantic:sendEmailAction>
+			<semantic:SendEmailAction id="shareEmail" press="onShareEmailPress"/>
+		</semantic:sendEmailAction>
+
+
+	</semantic:SemanticPage>
+
+</mvc:View>
